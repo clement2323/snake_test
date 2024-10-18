@@ -15,5 +15,6 @@ spec:
       containers:
       - name: snake-game-container
         image: cguillo/snake-game:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
