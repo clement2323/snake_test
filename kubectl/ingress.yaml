@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: snake-game-ingress
+spec:
+  rules:
+  - host: snake.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: snake-game-service
+            port:
+              number: 80

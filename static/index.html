@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Jeu Snake</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; background: #000; margin: auto; }
+    </style>
+</head>
+<body>
+    <canvas id="game" width="400" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById('game');
+        const context = canvas.getContext('2d');
+        const gridSize = 20;
+        let snake = [{ x: 200, y: 200 }];
+        let direction = { x: 0, y: 0 };
+        let food = { x: 0, y: 0 };
+        let gameOver = false;
+
+        function resetFood() {
+            food.x = Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize;
+            food.y = Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize;
+        }
+
+        document.addEventListener('keydown', e => {
+            switch (e.key) {
+                case 'ArrowLeft':
+                    if (direction.x === 0) direction = { x: -gridSize, y: 0 };
+                    break;
+                case 'ArrowUp':
+                    if (direction.y === 0) direction = { x: 0, y: -gridSize };
+                    break;
+                case 'ArrowRight':
+                    if (direction.x === 0) direction = { x: gridSize, y: 0 };
+                    break;
+                case 'ArrowDown':
+                    if (direction.y === 0) direction = { x: 0, y: gridSize };
+                    break;
+            }
+        });
+
+        function gameLoop() {
+            if (gameOver) {
+                context.fillStyle = 'white';
+                context.font = '20px Arial';
+                context.fillText('Game Over!', canvas.width / 2 - 50, canvas.height / 2);
+                return;
+            }
+
+            setTimeout(() => {
+                requestAnimationFrame(gameLoop);
+                context.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Déplacement du serpent
+                const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+                snake.unshift(head);
+
+                // Vérification des collisions
+                if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height || snake.slice(1).some(segment => segment.x === head.x && segment.y === head.y)) {
+                    gameOver = true;
+                }
+
+                // Vérification de la nourriture
+                if (head.x === food.x && head.y === food.y) {
+                    resetFood();
+                } else {
+                    snake.pop();
+                }
+
+                // Dessin de la nourriture
+                context.fillStyle = 'red';
+                context.fillRect(food.x, food.y, gridSize, gridSize);
+
+                // Dessin du serpent
+                context.fillStyle = 'lime';
+                snake.forEach(segment => context.fillRect(segment.x, segment.y, gridSize, gridSize));
+            }, 100);
+        }
+
+        resetFood();
+        gameLoop();
+    </script>
+</body>
+</html>
