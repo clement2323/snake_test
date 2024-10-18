@@ -4,24 +4,87 @@
     <meta charset="UTF-8">
     <title>Jeu Snake</title>
     <style>
-        body { margin: 0; }
-        canvas { display: block; background: #000; margin: auto; }
+        body {
+            margin: 0;
+            background-color: #222;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #game-container {
+            position: relative;
+            margin: 50px auto;
+            width: 400px;
+            height: 400px;
+            background-color: #000;
+            border: 2px solid #fff;
+        }
+        canvas {
+            display: block;
+        }
+        #start-screen, #game-over-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 400px;
+            height: 400px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-    <canvas id="game" width="400" height="400"></canvas>
+    <h1>Jeu Snake</h1>
+    <div id="game-container">
+        <canvas id="game" width="400" height="400"></canvas>
+        <div id="start-screen">
+            <h2>Bienvenue au jeu Snake!</h2>
+            <button id="start-button">Démarrer la partie</button>
+        </div>
+        <div id="game-over-screen" style="display: none;">
+            <h2>Game Over!</h2>
+            <p>Score: <span id="score"></span></p>
+            <button id="restart-button">Rejouer</button>
+        </div>
+    </div>
     <script>
         const canvas = document.getElementById('game');
         const context = canvas.getContext('2d');
         const gridSize = 20;
-        let snake = [{ x: 200, y: 200 }];
-        let direction = { x: 0, y: 0 };
-        let food = { x: 0, y: 0 };
-        let gameOver = false;
+        let snake, direction, food, gameOver, score, gameInterval;
+
+        const startScreen = document.getElementById('start-screen');
+        const gameOverScreen = document.getElementById('game-over-screen');
+        const startButton = document.getElementById('start-button');
+        const restartButton = document.getElementById('restart-button');
+        const scoreDisplay = document.getElementById('score');
+
+        function initializeGame() {
+            snake = [{ x: 200, y: 200 }];
+            direction = { x: 0, y: 0 };
+            food = {};
+            gameOver = false;
+            score = 0;
+            resetFood();
+        }
 
         function resetFood() {
             food.x = Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize;
             food.y = Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize;
+            // Empêcher la nourriture d'apparaître sur le serpent
+            if (snake.some(segment => segment.x === food.x && segment.y === food.y)) {
+                resetFood();
+            }
         }
 
         document.addEventListener('keydown', e => {
@@ -43,44 +106,56 @@
 
         function gameLoop() {
             if (gameOver) {
-                context.fillStyle = 'white';
-                context.font = '20px Arial';
-                context.fillText('Game Over!', canvas.width / 2 - 50, canvas.height / 2);
+                clearInterval(gameInterval);
+                gameOverScreen.style.display = 'flex';
+                scoreDisplay.textContent = score;
                 return;
             }
 
-            setTimeout(() => {
-                requestAnimationFrame(gameLoop);
-                context.clearRect(0, 0, canvas.width, canvas.height);
+            context.clearRect(0, 0, canvas.width, canvas.height);
 
-                // Déplacement du serpent
-                const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
-                snake.unshift(head);
+            // Déplacement du serpent
+            const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+            snake.unshift(head);
 
-                // Vérification des collisions
-                if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height || snake.slice(1).some(segment => segment.x === head.x && segment.y === head.y)) {
-                    gameOver = true;
-                }
+            // Vérification des collisions avec les murs
+            if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height) {
+                gameOver = true;
+            }
 
-                // Vérification de la nourriture
-                if (head.x === food.x && head.y === food.y) {
-                    resetFood();
-                } else {
-                    snake.pop();
-                }
+            // Vérification des collisions avec le corps du serpent
+            if (snake.slice(1).some(segment => segment.x === head.x && segment.y === head.y)) {
+                gameOver = true;
+            }
 
-                // Dessin de la nourriture
-                context.fillStyle = 'red';
-                context.fillRect(food.x, food.y, gridSize, gridSize);
+            // Vérification de la nourriture
+            if (head.x === food.x && head.y === food.y) {
+                score++;
+                resetFood();
+            } else {
+                snake.pop();
+            }
 
-                // Dessin du serpent
-                context.fillStyle = 'lime';
-                snake.forEach(segment => context.fillRect(segment.x, segment.y, gridSize, gridSize));
-            }, 100);
+            // Dessin de la nourriture
+            context.fillStyle = 'red';
+            context.fillRect(food.x, food.y, gridSize, gridSize);
+
+            // Dessin du serpent
+            context.fillStyle = 'lime';
+            snake.forEach((segment, index) => {
+                context.fillRect(segment.x, segment.y, gridSize, gridSize);
+            });
         }
 
-        resetFood();
-        gameLoop();
+        function startGame() {
+            initializeGame();
+            startScreen.style.display = 'none';
+            gameOverScreen.style.display = 'none';
+            gameInterval = setInterval(gameLoop, 100);
+        }
+
+        startButton.addEventListener('click', startGame);
+        restartButton.addEventListener('click', startGame);
     </script>
 </body>
 </html>
