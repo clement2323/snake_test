@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: snake-game-backend-config
+data:
+  DB_HOST: "10.233.45.89"
+  DB_PORT: "5432"
+  DB_USERNAME: "cleminou"
+  DB_PASSWORD: "cleminou"
+  DB_DATABASE: "dirag_game"

@@ -1,0 +1,38 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'snake-game-backend/**'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'snake-game-backend/**'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v4
+      with:
+        context: ./snake-game-backend
+        file: ./snake-game-backend/Dockerfile
+        push: true
+        tags: cguillo/snake-game-backend:latest
+
+    - name: Print image digest
+      run: echo ${{ steps.docker_build.outputs.digest }}

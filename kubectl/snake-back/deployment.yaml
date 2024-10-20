@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snake-game-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: snake-game-backend
+  template:
+    metadata:
+      labels:
+        app: snake-game-backend
+    spec:
+      containers:
+      - name: snake-game-backend
+        image: your-docker-registry/snake-game-backend:latest
+        ports:
+        - containerPort: 3000
+        envFrom:
+        - configMapRef:
+            name: snake-game-backend-config
