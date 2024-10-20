@@ -20,7 +20,7 @@ export class GamesService {
     return game ? game.score : 0;
   }
 
-  async getPlayerHighScore(player_id: number): Promise<number> {
+  async getPlayerHighScore(player_id: string): Promise<number> {
     const game = await this.gamesRepository.findOne({
       where: { player_id },
       order: { score: 'DESC' },
@@ -28,7 +28,7 @@ export class GamesService {
     return game ? game.score : 0;
   }
 
-  async startNewGame(player_id: number): Promise<number> {
+  async startNewGame(player_id: string): Promise<string> {
     const newGame = this.gamesRepository.create({
       player_id,
       date_time: new Date().toISOString(),
@@ -40,7 +40,7 @@ export class GamesService {
     return savedGame.id;
   }
 
-  async updateScore(game_id: number, score: number): Promise<number> {
+  async updateScore(game_id: string, score: number): Promise<number> {
     const game = await this.gamesRepository.findOne({
       where: { id: game_id, is_active: true },
     });
@@ -52,7 +52,7 @@ export class GamesService {
     return score;
   }
 
-  async endGame(gameId: number): Promise<number> {
+  async endGame(gameId: string): Promise<number> {
     const game = await this.gamesRepository.findOne({
       where: { id: gameId, is_active: true },
     });

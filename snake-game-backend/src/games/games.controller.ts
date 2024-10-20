@@ -13,13 +13,13 @@ export class GamesController {
   }
 
   @Get('highscore/player/:id')
-  async getPlayerHighScore(@Param('id', ParseIntPipe) playerId: number): Promise<{ highScore: number }> {
+  async getPlayerHighScore(@Param('id', ParseIntPipe) playerId: string): Promise<{ highScore: number }> {
     const highScore = await this.gamesService.getPlayerHighScore(playerId);
     return { highScore: highScore ?? 0 };
   }
 
   @Post('start')
-  async startNewGame(@Body('playerId', ParseIntPipe) playerId: number): Promise<{ gameId: number }> {
+  async startNewGame(@Body('playerId', ParseIntPipe) playerId: string): Promise<{ gameId: string }> {
     const gameId = await this.gamesService.startNewGame(playerId);
     return { gameId };
   }

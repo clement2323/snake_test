@@ -3,8 +3,8 @@ import { Player } from '../auth/player.entity';
 
 @Entity('games')
 export class Game {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   score: number;
@@ -21,6 +21,6 @@ export class Game {
   @Column({ default: 'snake-dirag' })
   nom_du_jeu: string;
 
-  @Column()
-  player_id: number;
+  @Column('uuid')
+  player_id: string;
 }

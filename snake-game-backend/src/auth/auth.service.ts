@@ -18,7 +18,12 @@ export class AuthService {
     }
 
     // Créer et sauvegarder le nouveau joueur
-    const newPlayer = this.playerRepository.create(userData);
+    const newPlayer = this.playerRepository.create({
+      nom_utilisateur: userData.nom_utilisateur,
+      mot_de_passe: userData.mot_de_passe,
+      prenom: userData.prenom,
+      nom: userData.nom
+    });
     return await this.playerRepository.save(newPlayer);
   }
 

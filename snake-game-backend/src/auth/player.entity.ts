@@ -1,9 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('players')
 export class Player {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ unique: true })
   nom_utilisateur: string;
@@ -11,12 +11,12 @@ export class Player {
   @Column()
   mot_de_passe: string;
 
-  @Column({ nullable: true })
+  @Column()
   prenom: string;
 
-  @Column({ nullable: true })
+  @Column()
   nom: string;
 
-  @CreateDateColumn()
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 }
