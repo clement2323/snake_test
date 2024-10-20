@@ -1,0 +1,116 @@
+[
+  {
+    "id": 1,
+    "username": "snake_master",
+    "email": "snake_master@example.com",
+    "firstName": "John",
+    "lastName": "Doe",
+    "password": "password123"
+  },
+  {
+    "id": 2,
+    "username": "apple_eater",
+    "email": "apple_eater@example.com",
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "password": "apples4ever"
+  },
+  {
+    "id": 3,
+    "username": "slither_pro",
+    "email": "slither_pro@example.com",
+    "firstName": "Bob",
+    "lastName": "Johnson",
+    "password": "slither123"
+  },
+  {
+    "id": 4,
+    "username": "pixel_mover",
+    "email": "pixel_mover@example.com",
+    "firstName": "Alice",
+    "lastName": "Williams",
+    "password": "pixel123"
+  },
+  {
+    "id": 5,
+    "username": "grid_navigator",
+    "email": "grid_navigator@example.com",
+    "firstName": "Mike",
+    "lastName": "Davis",
+    "password": "grid123"
+  },
+  {
+    "id": 6,
+    "username": "testuser",
+    "password": "testpassword"
+  },
+  {
+    "id": 7,
+    "username": "testuser",
+    "password": "testpassword"
+  },
+  {
+    "id": 4,
+    "username": "cleminou",
+    "password": "nokia",
+    "email": "guillo.clement@gmail.com",
+    "firstName": "clem",
+    "lastName": "guillo"
+  },
+  {
+    "id": 9,
+    "username": "rff",
+    "password": "nokia",
+    "email": "fff@email.com",
+    "firstName": "fff",
+    "lastName": "fff"
+  },
+  {
+    "id": 10,
+    "username": "cdd",
+    "password": "dd",
+    "email": "s@d.com",
+    "firstName": "ddd",
+    "lastName": "dd"
+  },
+  {
+    "id": 11,
+    "username": "aaadd",
+    "password": "dddd",
+    "email": "dd@gmail.com",
+    "firstName": "dd",
+    "lastName": "dd"
+  },
+  {
+    "id": 12,
+    "username": "aa",
+    "password": "bibi",
+    "email": "aa@ee.com",
+    "firstName": "clem",
+    "lastName": "ddee"
+  },
+  {
+    "id": 13,
+    "username": "eee",
+    "password": "eee",
+    "email": "e@z.cc",
+    "firstName": "eee",
+    "lastName": "ee"
+  },
+  {
+    "id": 14,
+    "username": "dd",
+    "password": "ddd",
+    "email": "d@e.Ec",
+    "firstName": "dd",
+    "lastName": "dd"
+  },
+  {
+    "id": 15,
+    "username": "titou",
+    "password": "jesuisbelle",
+    "email": "titou@love.fr",
+    "firstName": "titou",
+    "lastName": "Titou"
+  }
+]
