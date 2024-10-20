@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 
 const GRID_SIZE = 20
 const CELL_SIZE = 20
@@ -14,6 +14,9 @@ export function useSnakeGame() {
   const [gameOver, setGameOver] = useState(false)
   const [isPaused, setIsPaused] = useState(true)
   const [speed, setSpeed] = useState(INITIAL_SPEED)
+  const [gameStartTime, setGameStartTime] = useState(null)
+  const [gameDuration, setGameDuration] = useState(0)
+  const gameLoopRef = useRef(null)
 
   const moveSnake = useCallback(() => {
     if (isPaused || gameOver) return
@@ -26,6 +29,7 @@ export function useSnakeGame() {
 
       if (prevSnake.slice(1).some(segment => segment.x === newHead.x && segment.y === newHead.y)) {
         setGameOver(true)
+        endGame()
         return prevSnake
       }
 
@@ -47,8 +51,8 @@ export function useSnakeGame() {
     })
   }, [direction, food, bonus, isPaused, gameOver])
   useEffect(() => {
-    const gameLoop = setInterval(moveSnake, speed)
-    return () => clearInterval(gameLoop)
+    gameLoopRef.current = setInterval(moveSnake, speed)
+    return () => clearInterval(gameLoopRef.current)
   }, [moveSnake, speed])
 
   const startGame = () => {
@@ -60,6 +64,8 @@ export function useSnakeGame() {
     setGameOver(false)
     setIsPaused(false)
     setSpeed(INITIAL_SPEED)
+    setGameStartTime(Date.now())
+    setGameDuration(0)
   }
 
   const pauseGame = () => setIsPaused(!isPaused)
@@ -75,7 +81,28 @@ export function useSnakeGame() {
     }
   }
 
-  return { snake, food, bonus, score, gameOver, isPaused, startGame, pauseGame, changeDirection }
+  const endGame = () => {
+    setGameOver(true)
+    if (gameStartTime) {
+      const endTime = Date.now()
+      const duration = Math.floor((endTime - gameStartTime) / 1000) // durée en secondes
+      setGameDuration(duration)
+    }
+    clearInterval(gameLoopRef.current)
+  }
+
+  return { 
+    snake, 
+    food, 
+    bonus, 
+    score, 
+    gameOver, 
+    isPaused, 
+    startGame, 
+    pauseGame, 
+    changeDirection,
+    gameDuration
+  }
 }
 function generateFood(snake) {
   let newFood

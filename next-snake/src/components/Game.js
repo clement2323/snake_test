@@ -10,10 +10,21 @@ import { getPersonalHighScore, getGlobalHighScore } from '../app/lib/scores'
 import { useUser } from '../contexts/UserContext'
 
 export default function Game() {
-  const { snake, food, bonus, score, gameOver, isPaused, startGame, pauseGame, changeDirection, gameDuration } = useSnakeGame()
+  const { 
+    snake, 
+    food, 
+    bonus, 
+    score, 
+    gameOver, 
+    isPaused, 
+    startGame, 
+    pauseGame, 
+    changeDirection, 
+    gameDuration 
+  } = useSnakeGame()
   const { user, setUser } = useUser()
   const [personalHighScore, setPersonalHighScore] = useState(0)
-  const [globalHighScore, setGlobalHighScore] = useState(0)
+  const [globalHighScore, setGlobalHighScore] = useState({ score: 0, nom_utilisateur: '' })
   const [gameStarted, setGameStarted] = useState(false)
 
   const fetchHighScores = useCallback(async () => {
@@ -75,15 +86,25 @@ export default function Game() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          playerId: user.id,
+          player_id: user.id,
           score: score,
-          duration: gameDuration,
-          isActive: false,
-          timeData: new Date().toISOString()
+          duration: gameDuration, // Utilisez gameDuration ici
+          is_active: false,
+          date_time: new Date().toISOString(),
+          nom_du_jeu: "snake-dirag"
         }),
       })
       if (!response.ok) {
-        throw new Error('Failed to save score')
+        console.log( JSON.stringify({
+          player_id: user.id,
+          score: score,
+          duration: gameDuration,
+          is_active: false,
+          date_time: new Date().toISOString(),
+          nom_du_jeu: "snake-dirag"
+        }))
+        const errorText = await response.text();
+        throw new Error(`Failed to save score: ${response.status} ${response.statusText} - ${errorText}`);
       }
       const savedGame = await response.json()
       console.log('Game saved:', savedGame)
@@ -105,7 +126,8 @@ export default function Game() {
       <ScoreDisplay 
         score={score} 
         personalHighScore={personalHighScore} 
-        globalHighScore={globalHighScore}
+        globalHighScore={globalHighScore.score}
+        globalHighScoreUsername={globalHighScore.nom_utilisateur}
       />
       <GameBoard snake={snake} food={food} bonus={bonus} />
       <Controls onDirectionChange={changeDirection} />
@@ -121,7 +143,7 @@ export default function Game() {
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-black p-8 rounded-lg text-white text-center border border-white">
             <p className="mb-4 text-xl">
-              {user ? `Salut ${user.username}, appuie sur l'écran pour commencer` : "Appuie sur l'écran pour commencer"}
+              {user ? `Salut ${user.nom_utilisateur}, appuie sur l'écran pour commencer` : "Appuie sur l'écran pour commencer"}
             </p>
           </div>
         </div>
@@ -135,11 +157,6 @@ export default function Game() {
             setGameStarted(true)
           }}
         />
-      )}
-      {saveMessage && (
-        <div className="absolute top-0 left-0 right-0 bg-green-500 text-white p-2 text-center">
-          {saveMessage}
-        </div>
       )}
     </div>
   )

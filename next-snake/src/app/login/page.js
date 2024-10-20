@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation';
 import { useUser } from '../../contexts/UserContext';
 
 export default function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [nom_utilisateur, setNom_utilisateur] = useState('');
+  const [mot_de_passe, setMot_de_passe] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
   const { setUser } = useUser();
@@ -21,7 +21,7 @@ export default function Login() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ nom_utilisateur, mot_de_passe }),
       });
 
       if (response.ok) {
@@ -43,30 +43,30 @@ export default function Login() {
         <h1 className="text-4xl font-bold mb-8 text-center">Login</h1>
         <form onSubmit={handleSubmit} className="bg-gray-800 shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <div className="mb-4">
-            <label className="block text-sm font-bold mb-2" htmlFor="username">
-              Username
+            <label className="block text-sm font-bold mb-2" htmlFor="nom_utilisateur">
+              Nom d'utilisateur
             </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="username"
+              id="nom_utilisateur"
               type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Nom d'utilisateur"
+              value={nom_utilisateur}
+              onChange={(e) => setNom_utilisateur(e.target.value)}
               required
             />
           </div>
           <div className="mb-6">
-            <label className="block text-sm font-bold mb-2" htmlFor="password">
-              Password
+            <label className="block text-sm font-bold mb-2" htmlFor="mot_de_passe">
+              Mot de passe
             </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              id="password"
+              id="mot_de_passe"
               type="password"
               placeholder="******************"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={mot_de_passe}
+              onChange={(e) => setMot_de_passe(e.target.value)}
               required
             />
           </div>

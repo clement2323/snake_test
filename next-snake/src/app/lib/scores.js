@@ -30,7 +30,7 @@ export async function getPersonalHighScore(playerId) {
 
 export async function getGlobalHighScore() {
   try {
-    const response = await fetch('http://localhost:3001/api/games/highscore/global', {
+    const response = await fetch('http://localhost:3001/api/games/highscore/user', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -39,12 +39,12 @@ export async function getGlobalHighScore() {
 
     if (response.ok) {
       const data = await response.json();
-      return data.highScore;
+      return { score: data.high_score, nom_utilisateur: data.nom_utilisateur };
     } else {
       throw new Error('Failed to fetch global high score');
     }
   } catch (error) {
     console.error('Error fetching global high score:', error);
-    return null;
+    return { score: null, nom_utilisateur: null };
   }
 }

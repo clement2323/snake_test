@@ -15,7 +15,10 @@ export default function Home() {
       <main className="text-center">
         {user && (
           <div className="mb-4">
-            <p className="text-xl">{user.username} </p>
+            <p className="text-xl">
+            <span className="font-bold italic">bonne partie </span>
+              {' '}{user.nom_utilisateur}{' !'}
+            </p>
           </div>
         )}
         <Game />
@@ -27,3 +30,4 @@ export default function Home() {
     </div>
   )
 }
+//add tableau descore
