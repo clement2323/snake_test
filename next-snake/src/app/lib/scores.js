@@ -4,7 +4,7 @@ export async function getPersonalHighScore(playerId) {
     return 0;
   }
   try {
-    const response = await fetch(`http://localhost:3001/api/games/highscore/player/${playerId}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/games/highscore/player/${playerId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ export async function getPersonalHighScore(playerId) {
 
 export async function getGlobalHighScore() {
   try {
-    const response = await fetch('http://localhost:3001/api/games/highscore/user', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/games/highscore/user`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

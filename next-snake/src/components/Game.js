@@ -80,7 +80,7 @@ export default function Game() {
     if (!user) return
 
     try {
-      const response = await fetch('http://localhost:3001/api/games/add', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/games/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -131,7 +131,7 @@ export default function Game() {
       />
       <GameBoard snake={snake} food={food} bonus={bonus} />
       <Controls onDirectionChange={changeDirection} />
-      {gameStarted && (
+      {gameStarted && !gameOver && (
         <button
           onClick={togglePause}
           className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
@@ -149,14 +149,20 @@ export default function Game() {
         </div>
       )}
       {gameOver && (
-        <StartScreen
-          gameOver={gameOver}
-          score={score}
-          onStart={() => {
-            startGame()
-            setGameStarted(true)
-          }}
-        />
+        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-black p-8 rounded-lg text-white text-center border border-white">
+            <h2 className="text-2xl font-bold mb-4">Game Over</h2>
+            <button
+              onClick={() => {
+                startGame()
+                setGameStarted(true)
+              }}
+              className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+            >
+              Rejouer
+            </button>
+          </div>
+        </div>
       )}
     </div>
   )

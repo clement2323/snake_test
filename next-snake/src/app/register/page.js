@@ -7,8 +7,8 @@ import { useUser } from '../../contexts/UserContext';
 export default function Register() {
   const [prenom, setPrenom] = useState('');
   const [nom, setNom] = useState('');
-  const [nomUtilisateur, setNomUtilisateur] = useState('');
-  const [motDePasse, setMotDePasse] = useState('');
+  const [nom_utilisateur, setNomUtilisateur] = useState('');
+  const [mot_de_passe, setMotDePasse] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
   const { setUser } = useUser();
@@ -18,12 +18,12 @@ export default function Register() {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:3001/api/auth/register', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ prenom, nom, nomUtilisateur, motDePasse }),
+        body: JSON.stringify({ prenom, nom, nom_utilisateur, mot_de_passe }),
       });
 
       const data = await response.json();
@@ -76,29 +76,29 @@ export default function Register() {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-bold mb-2" htmlFor="nomUtilisateur">
+            <label className="block text-sm font-bold mb-2" htmlFor="nom_utilisateur">
               Nom d'utilisateur
             </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="nomUtilisateur"
+              id="nom_utilisateur"
               type="text"
               placeholder="Nom d'utilisateur"
-              value={nomUtilisateur}
+              value={nom_utilisateur}
               onChange={(e) => setNomUtilisateur(e.target.value)}
               required
             />
           </div>
           <div className="mb-6">
-            <label className="block text-sm font-bold mb-2" htmlFor="motDePasse">
+            <label className="block text-sm font-bold mb-2" htmlFor="mot_de_passe">
               Mot de passe
             </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              id="motDePasse"
+              id="mot_de_passe"
               type="password"
               placeholder="*********"
-              value={motDePasse}
+              value={mot_de_passe}
               onChange={(e) => setMotDePasse(e.target.value)}
               required
             />
