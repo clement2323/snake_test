@@ -1,52 +1,33 @@
-import { Injectable } from '@nestjs/common';
-import * as fs from 'fs/promises';
-import * as path from 'path';
+import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Player } from './player.entity';
 
 @Injectable()
 export class AuthService {
-  private players: any[] = [];
-  private readonly dataPath: string;
+  constructor(
+    @InjectRepository(Player)
+    private playerRepository: Repository<Player>,
+  ) {}
 
-  constructor() {
-    this.dataPath = path.join(process.cwd(), 'src','data', 'players.json');
-    this.loadPlayers();
-  }
-
-  private async loadPlayers() {
-    try {
-      const data = await fs.readFile(this.dataPath, 'utf8');
-      this.players = JSON.parse(data);
-    } catch (error) {
-      if (error.code === 'ENOENT') {
-        // File doesn't exist, initialize with empty array
-        this.players = [];
-        await this.savePlayers();
-      } else {
-        throw error;
-      }
+  async register(userData: Partial<Player>): Promise<Player> {
+    // Vérifier si le nom d'utilisateur existe déjà
+    const existingPlayer = await this.playerRepository.findOne({ where: { nom_utilisateur: userData.nom_utilisateur } });
+    if (existingPlayer) {
+      throw new ConflictException('Ce nom d\'utilisateur est déjà pris.');
     }
+
+    // Créer et sauvegarder le nouveau joueur
+    const newPlayer = this.playerRepository.create(userData);
+    return await this.playerRepository.save(newPlayer);
   }
 
-  async register(userData: any) {
-    const newPlayer = {
-      id: this.players.length + 1,
-      ...userData,
-    };
-    this.players.push(newPlayer);
-    await this.savePlayers();
-    return newPlayer;
-  }
-
-  async login(username: string, password: string) {
-    const player = this.players.find(p => p.username === username && p.password === password);
+  async login(nom_utilisateur: string, mot_de_passe: string): Promise<Omit<Player, 'mot_de_passe'> | null> {
+    const player = await this.playerRepository.findOne({ where: { nom_utilisateur, mot_de_passe } });
     if (player) {
-      const { password, ...result } = player;
+      const { mot_de_passe, ...result } = player;
       return result;
     }
     return null;
-  }
-
-  private async savePlayers() {
-    await fs.writeFile(this.dataPath, JSON.stringify(this.players, null, 2));
   }
 }

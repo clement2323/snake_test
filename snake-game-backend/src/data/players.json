@@ -1,21 +1,5 @@
 [
   {
-    "id": 1,
-    "username": "snake_master",
-    "email": "snake_master@example.com",
-    "firstName": "John",
-    "lastName": "Doe",
-    "password": "password123"
-  },
-  {
-    "id": 2,
-    "username": "apple_eater",
-    "email": "apple_eater@example.com",
-    "firstName": "Jane",
-    "lastName": "Smith",
-    "password": "apples4ever"
-  },
-  {
     "id": 3,
     "username": "slither_pro",
     "email": "slither_pro@example.com",
@@ -112,5 +96,19 @@
     "email": "titou@love.fr",
     "firstName": "titou",
     "lastName": "Titou"
+  },
+  {
+    "id": 16,
+    "prenom": "clement",
+    "nom": "guillo",
+    "nomUtilisateur": "cleminou",
+    "motDePasse": "nokia"
+  },
+  {
+    "id": 20,
+    "prenom": "Valentine",
+    "nom": "Chieze",
+    "nomUtilisateur": "titou",
+    "motDePasse": "titoutitou"
   }
 ]

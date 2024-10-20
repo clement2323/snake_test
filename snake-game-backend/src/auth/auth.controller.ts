@@ -12,8 +12,8 @@ export class AuthController {
   }
 
   @Post('login')
-  async login(@Body() loginData: { username: string; password: string }) {
-    const player = await this.authService.login(loginData.username, loginData.password);
+  async login(@Body() loginData: { nom_utilisateur: string; mot_de_passe: string }) {
+    const player = await this.authService.login(loginData.nom_utilisateur, loginData.mot_de_passe);
     if (player) {
       return { player };
     }
