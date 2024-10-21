@@ -1,5 +1,6 @@
 'use client'
-import Game from '@/components/Game'
+
+import GameWrapper from './GameWrapper'
 import { useContext, useEffect } from 'react'
 import { UserContext } from '@/contexts/UserContext'
 
@@ -21,7 +22,7 @@ export default function Home() {
             </p>
           </div>
         )}
-        <Game />
+        <GameWrapper />
       </main>
 
       <footer className="mt-8 text-sm text-gray-500">
