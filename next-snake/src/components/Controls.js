@@ -28,7 +28,7 @@ export default function Controls({ onDirectionChange }) {
   `;
 
   return (
-    <div className="w-[calc(2/3*0.8*100%)] aspect-square grid grid-cols-3 grid-rows-3 gap-2 mx-auto">
+    <div className="w-full h-full grid grid-cols-3 grid-rows-3 gap-2">
       <div className="col-start-2 row-start-1">
         <button 
           onClick={handleInteraction({ x: 0, y: -1 })}

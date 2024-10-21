@@ -3,7 +3,7 @@ export default function GameBoard({ snake, food, bonus, isPaused }) {
 
   return (
     <div 
-      className="game-board relative w-full aspect-square max-w-[400px] border-2 border-gray-800 bg-black"
+      className="game-board relative w-full h-full border-2 border-gray-800 bg-black"
     >
       {[...Array(gridSize)].map((_, rowIndex) =>
         [...Array(gridSize)].map((_, colIndex) => (

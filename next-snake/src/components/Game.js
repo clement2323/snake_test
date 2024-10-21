@@ -7,7 +7,6 @@ import Controls from './Controls'
 import ScoreDisplay from './ScoreDisplay'
 import { getPersonalHighScore, getGlobalHighScore } from '../app/lib/scores'
 import { useUser } from '../contexts/UserContext'
-import TouchJoystick from './TouchJoystick'
 
 export default function Game() {
   const { 
@@ -22,13 +21,11 @@ export default function Game() {
     isPaused,
     pauseGame
   } = useSnakeGame()
-  const { user, setUser } = useUser()
+  const { user } = useUser()
   const [personalHighScore, setPersonalHighScore] = useState(0)
   const [globalHighScore, setGlobalHighScore] = useState({ score: 0, nom_utilisateur: '' })
   const [gameStarted, setGameStarted] = useState(false)
-  const lastTouchTime = useRef(0);
-  const touchDelay = 300; // milliseconds
-  const [canVibrate, setCanVibrate] = useState(false);
+  const [canVibrate, setCanVibrate] = useState(false)
 
   useEffect(() => {
     // Vérifier si la vibration est supportée
@@ -177,40 +174,57 @@ export default function Game() {
           onClick={handleStartGame}
           onTouchStart={handleStartGame}
         >
-          <div className="bg-white bg-opacity-10 p-6 rounded-lg shadow-lg hover:bg-opacity-20 hover:shadow-xl transition-all duration-300 ease-in-out">
-            <p className="text-white text-xl italic font-light tracking-wide">
+          <div className="bg-white bg-opacity-10 p-4 sm:p-6 rounded-lg shadow-lg hover:bg-opacity-20 hover:shadow-xl transition-all duration-300 ease-in-out">
+            <p className="text-white text-lg sm:text-xl italic font-light tracking-wide">
               Toucher pour commencer à jouer !
             </p>
           </div>
         </div>
       ) : (
         <div className="flex-grow flex flex-col items-center justify-between p-2">
-          <div className="w-full max-w-md mb-2 flex justify-between items-center">
+          {/* Welcome message */}
+          {user && (
+            <div className="w-full text-center mb-2">
+              <p className="text-lg sm:text-xl">
+                <span className="font-bold italic">Bonne partie </span>
+                {user.nom_utilisateur} !
+              </p>
+            </div>
+          )}
+          
+          {/* Scores and Pause button */}
+          <div className="w-full flex justify-between items-center mb-2">
             <ScoreDisplay 
               score={score} 
               personalHighScore={personalHighScore}
               globalHighScore={globalHighScore}
             />
-            <div className="ml-auto">
-              <button
-                onClick={handlePause}
-                onTouchEnd={handlePause}
-                className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-1 px-3 rounded text-sm"
-              >
-                {isPaused ? "Resume" : "Pause"}
-              </button>
+            <button
+              onClick={handlePause}
+              onTouchEnd={handlePause}
+              className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-1 px-2 sm:px-3 rounded text-xs sm:text-sm"
+            >
+              {isPaused ? "Resume" : "Pause"}
+            </button>
+          </div>
+          
+          {/* Game board and Controls */}
+          <div className="w-full flex-grow flex flex-col justify-between">
+            <div className="flex-1 flex items-center justify-center mb-2">
+              <div className="w-full h-full max-w-[80vw] max-h-[35vh] aspect-square">
+                <GameBoard 
+                  snake={snake} 
+                  food={food} 
+                  bonus={bonus} 
+                  isPaused={isPaused}
+                />
+              </div>
             </div>
-          </div>
-          <div className="w-full max-w-md aspect-square mb-2">
-            <GameBoard 
-              snake={snake} 
-              food={food} 
-              bonus={bonus} 
-              isPaused={isPaused}
-            />
-          </div>
-          <div className="w-full max-w-md">
-            <Controls onDirectionChange={handleControlInteraction} />
+            <div className="flex-1 flex items-center justify-center">
+              <div className="w-full h-full max-w-[80vw] max-h-[35vh] aspect-square">
+                <Controls onDirectionChange={handleControlInteraction} />
+              </div>
+            </div>
           </div>
         </div>
       )}
