@@ -158,29 +158,31 @@ export default function Game() {
   };
 
   return (
-    <div className="relative">
+    <div className="relative w-full max-w-[500px] mx-auto px-4 flex flex-col items-center">
       <ScoreDisplay 
         score={score} 
         personalHighScore={personalHighScore} 
         globalHighScore={globalHighScore.score}
         globalHighScoreUsername={globalHighScore.nom_utilisateur}
       />
-      <div className="flex flex-col items-end">
+      <div className="w-full max-w-[400px] aspect-square">
         <GameBoard 
           snake={snake} 
           food={food} 
           bonus={bonus} 
           isPaused={isPaused}
         />
-        <button
-          onClick={handlePause}
-          onTouchEnd={handlePause}
-          className="mt-2 bg-gray-800 text-white px-2 py-1 rounded text-sm"
-        >
-          {isPaused ? "Reprendre" : "Pause"}
-        </button>
       </div>
-      <Controls onDirectionChange={handleControlInteraction} />
+      <button
+        onClick={handlePause}
+        onTouchEnd={handlePause}
+        className="mt-2 bg-gray-800 text-white px-2 py-1 rounded text-sm"
+      >
+        {isPaused ? "Reprendre" : "Pause"}
+      </button>
+      <div className="w-full max-w-[240px] mt-4">
+        <Controls onDirectionChange={handleControlInteraction} />
+      </div>
       {!gameStarted && !gameOver && (
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-black p-8 rounded-lg text-white text-center border border-white">

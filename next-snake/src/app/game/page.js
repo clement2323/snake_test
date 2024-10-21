@@ -12,12 +12,12 @@ export default function Home() {
   }, [user]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white">
-      <main className="text-center">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white p-4">
+      <main className="w-full max-w-[500px] text-center">
         {user && (
           <div className="mb-4">
             <p className="text-xl">
-            <span className="font-bold italic">bonne partie </span>
+              <span className="font-bold italic">bonne partie </span>
               {' '}{user.nom_utilisateur}{' !'}
             </p>
           </div>
