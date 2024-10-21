@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: snake-game-frontend-config
 data:
-  NEXT_PUBLIC_API_URL: "http://10.233.16.194"
+  API_URL: "http://10.233.16.194"

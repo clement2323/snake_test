@@ -16,8 +16,20 @@ spec:
       - name: snake-game-container
         image: cguillo/snake-game-frontend:latest
         imagePullPolicy: Always
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            echo "NEXT_PUBLIC_API_URL=$API_URL" > .env.local
+            npm run start
+        env:
+        - name: API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: snake-game-frontend-config
+              key: API_URL
         ports:
         - containerPort: 3000
+        # Les autres variables d'environnement peuvent toujours être injectées via envFrom si nécessaire
         envFrom:
         - configMapRef:
             name: snake-game-frontend-config
