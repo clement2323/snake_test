@@ -16,7 +16,7 @@ spec:
       - name: snake-game-backend
         image: cguillo/snake-game-backend:latest
         ports:
-        - containerPort: 3000
+        - containerPort: 3001
         envFrom:
         - configMapRef:
             name: snake-game-backend-config
