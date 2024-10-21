@@ -149,6 +149,12 @@ export default function Game() {
     changeDirection(direction);
   }, [gameStarted, gameOver, startGame, changeDirection]);
 
+  const handleResumeGame = useCallback(() => {
+    if (isPaused) {
+      pauseGame(); // Cette fonction devrait basculer l'état de pause
+    }
+  }, [isPaused, pauseGame]);
+
   return (
     <div className="relative">
       <ScoreDisplay 
@@ -162,6 +168,7 @@ export default function Game() {
         food={food} 
         bonus={bonus} 
         onInteraction={handleBoardInteraction}
+        onResumeGame={handleResumeGame}
         isPaused={isPaused}
       />
       <Controls onDirectionChange={handleControlInteraction} />
