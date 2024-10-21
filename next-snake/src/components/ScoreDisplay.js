@@ -1,14 +1,9 @@
-export default function ScoreDisplay({ score, personalHighScore, globalHighScore, globalHighScoreUsername }) {
+export default function ScoreDisplay({ score, personalHighScore, globalHighScore }) {
   return (
-    <div className="text-white text-xl mb-4 text-left italic">
-      <p>Score : {score}</p>
-      <p>Records :</p>
-      <ul className="list-disc list-inside pl-4">
-        <li>Perso : {personalHighScore}</li>
-        <li>DIRAG : {globalHighScore} {globalHighScoreUsername && (
-          <>par <span className="text-red-500">{globalHighScoreUsername}</span></>
-        )}</li>
-      </ul>
+    <div className="text-left text-sm">
+      <p>Score: {score}</p>
+      <p>Record Personnel: {personalHighScore}</p>
+      <p>Record DIRAG: {globalHighScore.score} (by <span className="text-red-500 font-bold animate-pulse">{globalHighScore.nom_utilisateur}</span>)</p>
     </div>
   )
 }

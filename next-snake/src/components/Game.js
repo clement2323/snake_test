@@ -150,69 +150,44 @@ export default function Game() {
     }
   }, [isPaused, pauseGame]);
 
-  const handlePause = (e) => {
+  const handlePause = useCallback((e) => {
     if (e.type === 'touchend') {
       e.preventDefault();
     }
     pauseGame();
-  };
+  }, [pauseGame]);
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-between p-2">
-      <div className="w-full flex-shrink-0">
-        <ScoreDisplay 
-          score={score} 
-          personalHighScore={personalHighScore} 
-          globalHighScore={globalHighScore.score}
-          globalHighScoreUsername={globalHighScore.nom_utilisateur}
-          className="w-full text-sm"
-        />
-      </div>
-      <div className="flex-grow flex items-center justify-center w-full max-w-[350px] aspect-square my-2">
-        <GameBoard 
-          snake={snake} 
-          food={food} 
-          bonus={bonus} 
-          isPaused={isPaused}
-        />
-      </div>
-      <div className="w-full flex-shrink-0 flex flex-col items-center space-y-2">
-        <button
-          onClick={handlePause}
-          onTouchEnd={handlePause}
-          className="bg-gray-800 text-white px-4 py-2 rounded text-sm"
-        >
-          {isPaused ? "Reprendre" : "Pause"}
-        </button>
-        <div className="w-full max-w-[200px]">
-          <Controls onDirectionChange={handleControlInteraction} />
-        </div>
-      </div>
-      {!gameStarted && !gameOver && (
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-black p-4 rounded-lg text-white text-center border border-white">
-            <p className="text-sm">
-              {user ? `Salut ${user.nom_utilisateur}, appuie sur l'écran pour commencer` : "Appuie sur l'écran pour commencer"}
-            </p>
-          </div>
-        </div>
-      )}
-      {gameOver && (
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-black p-4 rounded-lg text-white text-center border border-white">
-            <h2 className="text-lg font-bold mb-2">Game Over</h2>
+    <div className="w-full h-full flex flex-col">
+      <div className="flex-grow flex flex-col items-center justify-between p-2">
+        <div className="w-full max-w-md mb-2 flex justify-between items-center">
+          <ScoreDisplay 
+            score={score} 
+            personalHighScore={personalHighScore}
+            globalHighScore={globalHighScore}
+          />
+          <div className="ml-auto">
             <button
-              onClick={() => {
-                startGame()
-                setGameStarted(true)
-              }}
-              className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition-colors text-sm"
+              onClick={handlePause}
+              onTouchEnd={handlePause}
+              className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-1 px-3 rounded text-sm"
             >
-              Rejouer
+              {isPaused ? "Resume" : "Pause"}
             </button>
           </div>
         </div>
-      )}
+        <div className="w-full max-w-md aspect-square mb-2">
+          <GameBoard 
+            snake={snake} 
+            food={food} 
+            bonus={bonus} 
+            isPaused={isPaused}
+          />
+        </div>
+        <div className="w-full max-w-md">
+          <Controls onDirectionChange={handleControlInteraction} />
+        </div>
+      </div>
     </div>
   )
 }
