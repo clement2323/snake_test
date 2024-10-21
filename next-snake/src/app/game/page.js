@@ -12,20 +12,24 @@ export default function Home() {
   }, [user]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white p-4">
-      <main className="w-full max-w-[500px] text-center">
-        {user && (
-          <div className="mb-4">
-            <p className="text-xl">
-              <span className="font-bold italic">bonne partie </span>
-              {' '}{user.nom_utilisateur}{' !'}
-            </p>
+    <div className="min-h-screen flex flex-col bg-gray-900 text-white">
+      <main className="flex-grow flex flex-col items-center justify-between p-4 overflow-hidden">
+        <div className="w-full max-w-[500px] flex flex-col items-center justify-center h-full">
+          {user && (
+            <div className="mb-4 text-center">
+              <p className="text-xl">
+                <span className="font-bold italic">bonne partie </span>
+                {' '}{user.nom_utilisateur}{' !'}
+              </p>
+            </div>
+          )}
+          <div className="w-full h-[calc(100vh-8rem)] flex items-center justify-center">
+            <GameWrapper />
           </div>
-        )}
-        <GameWrapper />
+        </div>
       </main>
 
-      <footer className="mt-8 text-sm text-gray-500">
+      <footer className="p-4 text-center text-sm text-gray-500">
         <p>Created with Next.js and React</p>
       </footer>
     </div>

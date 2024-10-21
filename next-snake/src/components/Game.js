@@ -158,14 +158,14 @@ export default function Game() {
   };
 
   return (
-    <div className="relative w-full max-w-[500px] mx-auto px-4 flex flex-col items-center">
+    <div className="w-full h-full flex flex-col items-center justify-between p-4">
       <ScoreDisplay 
         score={score} 
         personalHighScore={personalHighScore} 
         globalHighScore={globalHighScore.score}
         globalHighScoreUsername={globalHighScore.nom_utilisateur}
       />
-      <div className="w-full max-w-[400px] aspect-square">
+      <div className="w-full aspect-square max-w-[min(100%,400px)] mb-4">
         <GameBoard 
           snake={snake} 
           food={food} 
@@ -176,11 +176,11 @@ export default function Game() {
       <button
         onClick={handlePause}
         onTouchEnd={handlePause}
-        className="mt-2 bg-gray-800 text-white px-2 py-1 rounded text-sm"
+        className="mb-4 bg-gray-800 text-white px-4 py-2 rounded"
       >
         {isPaused ? "Reprendre" : "Pause"}
       </button>
-      <div className="w-full max-w-[240px] mt-4">
+      <div className="w-full max-w-[300px]">
         <Controls onDirectionChange={handleControlInteraction} />
       </div>
       {!gameStarted && !gameOver && (
