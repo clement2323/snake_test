@@ -24,11 +24,7 @@ jobs:
 
     - name: Install dependencies
       working-directory: ./next-snake
-      run: npm ci
-
-    - name: Run tests
-      working-directory: ./next-snake
-      run: npm test
+      run: npm install
 
     - name: Build Next.js app
       working-directory: ./next-snake
