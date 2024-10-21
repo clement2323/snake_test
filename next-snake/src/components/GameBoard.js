@@ -1,23 +1,16 @@
-export default function GameBoard({ snake, food, bonus, onInteraction, isPaused }) {
+export default function GameBoard({ snake, food, bonus, isPaused }) {
   const gridSize = 20;
   const cellSize = 20;
-
-  const handleInteraction = (e) => {
-    e.preventDefault();
-    onInteraction();
-  };
 
   return (
     <div 
       className="game-board relative w-[400px] h-[400px] border-2 border-gray-800 bg-black"
-      onTouchStart={handleInteraction}
-      onClick={handleInteraction}
     >
       {[...Array(gridSize)].map((_, rowIndex) =>
         [...Array(gridSize)].map((_, colIndex) => (
           <div
             key={`${rowIndex}-${colIndex}`}
-            className="absolute border border-gray-700"
+            className="absolute border border-gray-700 game-grid-cell"
             style={{
               left: `${colIndex * cellSize}px`,
               top: `${rowIndex * cellSize}px`,
@@ -64,7 +57,6 @@ export default function GameBoard({ snake, food, bonus, onInteraction, isPaused 
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="text-center">
             <p className="text-white text-2xl">Pause</p>
-            <p className="text-white text-xl mt-2">Réappuyer pour reprendre</p>
           </div>
         </div>
       )}

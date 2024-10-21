@@ -71,6 +71,7 @@ export function useSnakeGame() {
   const pauseGame = () => setIsPaused(!isPaused)
 
   const changeDirection = (newDirection) => {
+    ("Changing snake direction to:", newDirection);
     if (!isPaused) {
       setDirection(prevDirection => {
         if (newDirection.x !== -prevDirection.x || newDirection.y !== -prevDirection.y) {
