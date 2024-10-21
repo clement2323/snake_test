@@ -30,7 +30,7 @@ export default function Home() {
       </main>
 
       <footer className="p-4 text-center text-sm text-gray-500">
-        <p>Created with Next.js and React</p>
+        <p>Du fun du fun du fun</p>
       </footer>
     </div>
   )
