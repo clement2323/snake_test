@@ -1,26 +1,10 @@
-export default function GameBoard({ snake, food, bonus, onInteraction, onResumeGame, isPaused }) {
+export default function GameBoard({ snake, food, bonus, isPaused }) {
   const gridSize = 20;
   const cellSize = 20;
-
-  const handleInteraction = (e) => {
-    e.preventDefault();
-    // Vérifier si l'élément cliqué est le fond du jeu (le quadrillage)
-    if (e.target.classList.contains('game-grid-cell')) {
-      onInteraction();
-    }
-  };
-
-  const handleResumeInteraction = (e) => {
-    e.preventDefault();
-    e.stopPropagation(); // Empêche l'événement de se propager au parent
-    onResumeGame();
-  };
 
   return (
     <div 
       className="game-board relative w-[400px] h-[400px] border-2 border-gray-800 bg-black"
-      onTouchStart={handleInteraction}
-      onClick={handleInteraction}
     >
       {[...Array(gridSize)].map((_, rowIndex) =>
         [...Array(gridSize)].map((_, colIndex) => (
@@ -70,14 +54,9 @@ export default function GameBoard({ snake, food, bonus, onInteraction, onResumeG
       )}
       
       {isPaused && (
-        <div 
-          className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center"
-          onTouchStart={handleResumeInteraction}
-          onClick={handleResumeInteraction}
-        >
+        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="text-center">
             <p className="text-white text-2xl">Pause</p>
-            <p className="text-white text-xl mt-2">Réappuyer pour reprendre</p>
           </div>
         </div>
       )}

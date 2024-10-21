@@ -163,14 +163,20 @@ export default function Game() {
         globalHighScore={globalHighScore.score}
         globalHighScoreUsername={globalHighScore.nom_utilisateur}
       />
-      <GameBoard 
-        snake={snake} 
-        food={food} 
-        bonus={bonus} 
-        onInteraction={handleBoardInteraction}
-        onResumeGame={handleResumeGame}
-        isPaused={isPaused}
-      />
+      <div className="flex flex-col items-end">
+        <GameBoard 
+          snake={snake} 
+          food={food} 
+          bonus={bonus} 
+          isPaused={isPaused}
+        />
+        <button
+          onClick={pauseGame}
+          className="mt-2 bg-gray-800 text-white px-2 py-1 rounded text-sm"
+        >
+          {isPaused ? "Reprendre" : "Pause"}
+        </button>
+      </div>
       <Controls onDirectionChange={handleControlInteraction} />
       {!gameStarted && !gameOver && (
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
