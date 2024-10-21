@@ -140,6 +140,7 @@ export default function Game() {
       setGameStarted(true);
     }
     if (!isPaused) {
+    
       changeDirection(direction);
     }
   }, [gameStarted, gameOver, startGame, changeDirection, isPaused]);
