@@ -7,6 +7,7 @@ import Controls from './Controls'
 import ScoreDisplay from './ScoreDisplay'
 import { getPersonalHighScore, getGlobalHighScore } from '../app/lib/scores'
 import { useUser } from '../contexts/UserContext'
+import TouchJoystick from './TouchJoystick'
 
 export default function Game() {
   const { 
@@ -177,7 +178,7 @@ export default function Game() {
           {isPaused ? "Reprendre" : "Pause"}
         </button>
       </div>
-      <Controls onDirectionChange={handleControlInteraction} />
+      <TouchJoystick onDirectionChange={handleControlInteraction} />
       {!gameStarted && !gameOver && (
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-black p-8 rounded-lg text-white text-center border border-white">
