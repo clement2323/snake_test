@@ -1,6 +1,6 @@
 'use client'
 
-import GameWrapper from '../components/GameWrapper'
+import GameWrapper from '../../components/GameWrapper'
 import { useContext, useEffect } from 'react'
 import { UserContext } from '@/contexts/UserContext'
 
