@@ -5,7 +5,6 @@ import { useSnakeGame } from '../hooks/useSnakeGame'
 import GameBoard from './GameBoard'
 import Controls from './Controls'
 import ScoreDisplay from './ScoreDisplay'
-import StartScreen from './StartScreen'
 import { getPersonalHighScore, getGlobalHighScore } from '../app/lib/scores'
 import { useUser } from '../contexts/UserContext'
 
@@ -69,15 +68,8 @@ export default function Game() {
 
   const [saveMessage, setSaveMessage] = useState('')
 
-  useEffect(() => {
-    if (gameOver) {
-      saveScore(score)
-        
-    }
-  }, [gameOver, score])
-
-  const saveScore = async (score) => {
-    if (!user) return
+  const saveScore = useCallback(async (score) => {
+    if (!user) return;
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/games/add`, {
@@ -114,7 +106,13 @@ export default function Game() {
     } catch (error) {
       console.error('Error saving score:', error)
     }
-  }
+  }, [user, fetchHighScores])
+
+  useEffect(() => {
+    if (gameOver) {
+      saveScore(score);
+    }
+  }, [gameOver, score, saveScore]);
 
   const togglePause = (e) => {
     e.stopPropagation()

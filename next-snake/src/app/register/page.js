@@ -77,13 +77,13 @@ export default function Register() {
           </div>
           <div className="mb-4">
             <label className="block text-sm font-bold mb-2" htmlFor="nom_utilisateur">
-              Nom d'utilisateur
+              Nom d&apos;utilisateur
             </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="nom_utilisateur"
               type="text"
-              placeholder="Nom d'utilisateur"
+              placeholder="Nom d&apos;utilisateur"
               value={nom_utilisateur}
               onChange={(e) => setNomUtilisateur(e.target.value)}
               required
@@ -109,7 +109,7 @@ export default function Register() {
               className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
             >
-              S'inscrire
+              S&apos;inscrire
             </button>
           </div>
         </form>

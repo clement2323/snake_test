@@ -44,13 +44,13 @@ export default function Login() {
         <form onSubmit={handleSubmit} className="bg-gray-800 shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <div className="mb-4">
             <label className="block text-sm font-bold mb-2" htmlFor="nom_utilisateur">
-              Nom d'utilisateur
+              Nom d&apos;utilisateur
             </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="nom_utilisateur"
               type="text"
-              placeholder="Nom d'utilisateur"
+              placeholder="Nom d&apos;utilisateur"
               value={nom_utilisateur}
               onChange={(e) => setNom_utilisateur(e.target.value)}
               required
