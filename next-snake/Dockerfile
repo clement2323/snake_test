@@ -13,8 +13,10 @@ RUN npm install
 # Copy the rest of your app's source code
 COPY . .
 
-# Créez le fichier .env.local avec une valeur par défaut
-RUN echo "NEXT_PUBLIC_API_URL=http://placeholder-url.com" > .env.local
+# ATTENTION: Assurez-vous que cette IP correspond à celle du service backend.
+# Vous devrez peut-être la mettre à jour si l'IP du service change.
+# Utilisez 'kubectl get services' pour vérifier l'IP du service backend.
+RUN echo "NEXT_PUBLIC_API_URL=http://10.233.16.194" > .env.local
 
 # Build de l'application
 RUN npm run build
