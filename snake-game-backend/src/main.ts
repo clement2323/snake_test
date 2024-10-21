@@ -4,8 +4,12 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   
-  // Enable CORS
-  app.enableCors();
+  // Enable CORS with more restrictive settings
+  app.enableCors({
+    origin: ['https://next-snake-dirag.lab.sspcloud.fr', 'http://localhost:3000'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+  });
   
   // Global prefix for all routes (optional)
   app.setGlobalPrefix('api');
