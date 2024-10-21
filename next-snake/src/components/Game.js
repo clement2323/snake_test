@@ -158,14 +158,17 @@ export default function Game() {
   };
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-between p-4">
-      <ScoreDisplay 
-        score={score} 
-        personalHighScore={personalHighScore} 
-        globalHighScore={globalHighScore.score}
-        globalHighScoreUsername={globalHighScore.nom_utilisateur}
-      />
-      <div className="w-full aspect-square max-w-[min(100%,400px)] mb-4">
+    <div className="w-full h-full flex flex-col items-center justify-between p-2">
+      <div className="w-full flex-shrink-0">
+        <ScoreDisplay 
+          score={score} 
+          personalHighScore={personalHighScore} 
+          globalHighScore={globalHighScore.score}
+          globalHighScoreUsername={globalHighScore.nom_utilisateur}
+          className="w-full text-sm"
+        />
+      </div>
+      <div className="flex-grow flex items-center justify-center w-full max-w-[350px] aspect-square my-2">
         <GameBoard 
           snake={snake} 
           food={food} 
@@ -173,20 +176,22 @@ export default function Game() {
           isPaused={isPaused}
         />
       </div>
-      <button
-        onClick={handlePause}
-        onTouchEnd={handlePause}
-        className="mb-4 bg-gray-800 text-white px-4 py-2 rounded"
-      >
-        {isPaused ? "Reprendre" : "Pause"}
-      </button>
-      <div className="w-full max-w-[300px]">
-        <Controls onDirectionChange={handleControlInteraction} />
+      <div className="w-full flex-shrink-0 flex flex-col items-center space-y-2">
+        <button
+          onClick={handlePause}
+          onTouchEnd={handlePause}
+          className="bg-gray-800 text-white px-4 py-2 rounded text-sm"
+        >
+          {isPaused ? "Reprendre" : "Pause"}
+        </button>
+        <div className="w-full max-w-[200px]">
+          <Controls onDirectionChange={handleControlInteraction} />
+        </div>
       </div>
       {!gameStarted && !gameOver && (
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-black p-8 rounded-lg text-white text-center border border-white">
-            <p className="mb-4 text-xl">
+          <div className="bg-black p-4 rounded-lg text-white text-center border border-white">
+            <p className="text-sm">
               {user ? `Salut ${user.nom_utilisateur}, appuie sur l'écran pour commencer` : "Appuie sur l'écran pour commencer"}
             </p>
           </div>
@@ -194,14 +199,14 @@ export default function Game() {
       )}
       {gameOver && (
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-black p-8 rounded-lg text-white text-center border border-white">
-            <h2 className="text-2xl font-bold mb-4">Game Over</h2>
+          <div className="bg-black p-4 rounded-lg text-white text-center border border-white">
+            <h2 className="text-lg font-bold mb-2">Game Over</h2>
             <button
               onClick={() => {
                 startGame()
                 setGameStarted(true)
               }}
-              className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+              className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition-colors text-sm"
             >
               Rejouer
             </button>
