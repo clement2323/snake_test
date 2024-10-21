@@ -9,7 +9,7 @@ export default function Controls({ onDirectionChange }) {
   const buttonClass = "w-full h-full bg-black text-white rounded-full border-2 border-white shadow-[0_0_0_2px_#000] hover:bg-gray-800 focus:outline-none flex items-center justify-center";
 
   return (
-    <div className="w-full aspect-square grid grid-cols-3 grid-rows-3 gap-2">
+    <div className="w-2/3 aspect-square grid grid-cols-3 grid-rows-3 gap-2 mx-auto">
       <div className="col-start-2 row-start-1">
         <button 
           onClick={handleInteraction({ x: 0, y: -1 })}
@@ -17,7 +17,7 @@ export default function Controls({ onDirectionChange }) {
           className={buttonClass}
           aria-label="Up"
         >
-          <span className="text-[min(4vw,4vh)]">▲</span>
+          <span className="text-[min(2.7vw,2.7vh)]">▲</span>
         </button>
       </div>
       <div className="col-start-1 row-start-2">
@@ -27,7 +27,7 @@ export default function Controls({ onDirectionChange }) {
           className={buttonClass}
           aria-label="Left"
         >
-          <span className="text-[min(4vw,4vh)]">◄</span>
+          <span className="text-[min(2.7vw,2.7vh)]">◄</span>
         </button>
       </div>
       <div className="col-start-3 row-start-2">
@@ -37,7 +37,7 @@ export default function Controls({ onDirectionChange }) {
           className={buttonClass}
           aria-label="Right"
         >
-          <span className="text-[min(4vw,4vh)]">►</span>
+          <span className="text-[min(2.7vw,2.7vh)]">►</span>
         </button>
       </div>
       <div className="col-start-2 row-start-3">
@@ -47,7 +47,7 @@ export default function Controls({ onDirectionChange }) {
           className={buttonClass}
           aria-label="Down"
         >
-          <span className="text-[min(4vw,4vh)]">▼</span>
+          <span className="text-[min(2.7vw,2.7vh)]">▼</span>
         </button>
       </div>
     </div>
