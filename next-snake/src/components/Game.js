@@ -141,6 +141,14 @@ export default function Game() {
     }
   }, [gameStarted, gameOver, pauseGame, startGame]);
 
+  const handleControlInteraction = useCallback((direction) => {
+    if (!gameStarted || gameOver) {
+      startGame();
+      setGameStarted(true);
+    }
+    changeDirection(direction);
+  }, [gameStarted, gameOver, startGame, changeDirection]);
+
   return (
     <div className="relative">
       <ScoreDisplay 
@@ -156,7 +164,7 @@ export default function Game() {
         onInteraction={handleBoardInteraction}
         isPaused={isPaused}
       />
-      <Controls onDirectionChange={changeDirection} />
+      <Controls onDirectionChange={handleControlInteraction} />
       {!gameStarted && !gameOver && (
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-black p-8 rounded-lg text-white text-center border border-white">
