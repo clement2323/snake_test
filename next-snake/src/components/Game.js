@@ -64,15 +64,20 @@ export default function Game() {
     }
   }, [gameStarted, startGame, canVibrate]);
 
-  const handleControlInteraction = useCallback((direction) => {
+  const handleControlInteraction = useCallback((direction, eventType) => {
     if (!gameStarted || gameOver) {
       startGame();
       setGameStarted(true);
     }
     if (!isPaused) {
-      changeDirection(direction);
+      if (eventType === 'touchend' || eventType === 'click') {
+        changeDirection(direction);
+        if (canVibrate) {
+          navigator.vibrate(50);
+        }
+      }
     }
-  }, [gameStarted, gameOver, startGame, changeDirection, isPaused]);
+  }, [gameStarted, gameOver, startGame, changeDirection, isPaused, canVibrate]);
 
   useEffect(() => {
     const handleKeyPress = (e) => {

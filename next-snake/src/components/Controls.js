@@ -11,15 +11,10 @@ export default function Controls({ onDirectionChange }) {
   const handleInteraction = (direction) => (e) => {
     if (e.type === 'touchstart') {
       setActiveButton(direction);
-    } else if (e.type === 'touchend') {
+    } else if (e.type === 'touchend' || e.type === 'click') {
       e.preventDefault();
       setActiveButton(null);
-      onDirectionChange(direction);
-      if (canVibrate) {
-        navigator.vibrate(50);
-      }
-    } else if (e.type === 'click') {
-      onDirectionChange(direction);
+      onDirectionChange(direction, e.type);
     }
   };
 
@@ -33,7 +28,7 @@ export default function Controls({ onDirectionChange }) {
   `;
 
   return (
-    <div className="w-2/3 aspect-square grid grid-cols-3 grid-rows-3 gap-2 mx-auto">
+    <div className="w-[calc(2/3*2/3*100%)] aspect-square grid grid-cols-3 grid-rows-3 gap-2 mx-auto">
       <div className="col-start-2 row-start-1">
         <button 
           onClick={handleInteraction({ x: 0, y: -1 })}
@@ -42,7 +37,7 @@ export default function Controls({ onDirectionChange }) {
           className={buttonClass({ x: 0, y: -1 })}
           aria-label="Up"
         >
-          <span className="text-[min(4vw,4vh)]">▲</span>
+          <span className="text-[min(2.8vw,2.8vh)]">▲</span>
         </button>
       </div>
       <div className="col-start-1 row-start-2">
