@@ -7,7 +7,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: "upgrade-insecure-requests"
+            value: `default-src 'self' https:; connect-src 'self' https: ${process.env.NEXT_PUBLIC_API_URL}; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';`
           }
         ]
       }

@@ -62,9 +62,22 @@ export default function Game() {
       }
     }
 
-    window.addEventListener('keydown', handleKeyPress)
-    return () => window.removeEventListener('keydown', handleKeyPress)
-  }, [changeDirection, gameStarted, gameOver, startGame])
+    const handleTouchStart = (e) => {
+      e.preventDefault();
+      if (!gameStarted || gameOver) {
+        startGame();
+        setGameStarted(true);
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyPress);
+    window.addEventListener('touchstart', handleTouchStart);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+      window.removeEventListener('touchstart', handleTouchStart);
+    }
+  }, [changeDirection, gameStarted, gameOver, startGame]);
 
   const [saveMessage, setSaveMessage] = useState('')
 
@@ -120,7 +133,14 @@ export default function Game() {
   }
 
   return (
-    <div className="relative">
+    <div className="relative" 
+         onTouchStart={(e) => {
+           if (!gameStarted || gameOver) {
+             e.preventDefault();
+             startGame();
+             setGameStarted(true);
+           }
+         }}>
       <ScoreDisplay 
         score={score} 
         personalHighScore={personalHighScore} 
