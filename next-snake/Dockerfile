@@ -19,7 +19,7 @@ COPY next.config.mjs .
 # ATTENTION: Assurez-vous que cette IP correspond à celle du service backend.
 # Vous devrez peut-être la mettre à jour si l'IP du service change.
 # Utilisez 'kubectl get services' pour vérifier l'IP du service backend.
-RUN echo "NEXT_PUBLIC_API_URL=/api" > .env.local
+RUN echo "NEXT_PUBLIC_API_URL=http://10.233.16.194" > .env.local
 
 # Build de l'application
 RUN npm run build
