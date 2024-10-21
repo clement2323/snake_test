@@ -173,7 +173,9 @@ export default function Game() {
           onTouchStart={handleStartGame}
         >
           <div className="bg-white bg-opacity-10 p-6 rounded-lg shadow-lg hover:bg-opacity-20 hover:shadow-xl transition-all duration-300 ease-in-out">
-            <p className="text-white text-2xl font-bold">Toucher pour commencer à jouer</p>
+            <p className="text-white text-xl italic font-light tracking-wide">
+              Toucher pour commencer à jouer !
+            </p>
           </div>
         </div>
       ) : (
