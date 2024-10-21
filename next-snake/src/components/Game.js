@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { useSnakeGame } from '../hooks/useSnakeGame'
 import GameBoard from './GameBoard'
 import Controls from './Controls'
@@ -64,10 +64,7 @@ export default function Game() {
 
     const handleTouchStart = (e) => {
       e.preventDefault();
-      if (!gameStarted || gameOver) {
-        startGame();
-        setGameStarted(true);
-      }
+      handleBoardInteraction();
     }
 
     window.addEventListener('keydown', handleKeyPress);
@@ -77,7 +74,7 @@ export default function Game() {
       window.removeEventListener('keydown', handleKeyPress);
       window.removeEventListener('touchstart', handleTouchStart);
     }
-  }, [changeDirection, gameStarted, gameOver, startGame]);
+  }, [changeDirection, gameStarted, gameOver, startGame, handleBoardInteraction]);
 
   const [saveMessage, setSaveMessage] = useState('')
 
@@ -127,14 +124,23 @@ export default function Game() {
     }
   }, [gameOver, score, saveScore]);
 
-  const handleBoardInteraction = () => {
+  const lastTouchTime = useRef(0);
+  const touchDelay = 300; // milliseconds
+
+  const handleBoardInteraction = useCallback(() => {
+    const now = Date.now();
+    if (now - lastTouchTime.current < touchDelay) {
+      return; // Ignore rapid taps
+    }
+    lastTouchTime.current = now;
+
     if (gameStarted && !gameOver) {
       pauseGame();
     } else if (!gameStarted || gameOver) {
       startGame();
       setGameStarted(true);
     }
-  };
+  }, [gameStarted, gameOver, pauseGame, startGame]);
 
   return (
     <div className="relative">
