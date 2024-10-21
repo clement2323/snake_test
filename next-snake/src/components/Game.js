@@ -26,12 +26,10 @@ export default function Game() {
   const [globalHighScore, setGlobalHighScore] = useState({ score: 0, nom_utilisateur: '' })
   const [gameStarted, setGameStarted] = useState(false)
   const [canVibrate, setCanVibrate] = useState(false)
+  const [hasInteracted, setHasInteracted] = useState(false)
 
   useEffect(() => {
-    // Vérifier si la vibration est supportée
-    if ('vibrate' in navigator) {
-      setCanVibrate(true);
-    }
+    setCanVibrate('vibrate' in navigator);
   }, []);
 
   const fetchHighScores = useCallback(async () => {
@@ -55,26 +53,28 @@ export default function Game() {
     if (!gameStarted) {
       startGame();
       setGameStarted(true);
-      if (canVibrate) {
-        navigator.vibrate(200); // Vibrer pendant 200ms
+      setHasInteracted(true);
+      if (canVibrate && hasInteracted) {
+        navigator.vibrate(200);
       }
     }
-  }, [gameStarted, startGame, canVibrate]);
+  }, [gameStarted, startGame, canVibrate, hasInteracted]);
 
   const handleControlInteraction = useCallback((direction, eventType) => {
     if (!gameStarted || gameOver) {
       startGame();
       setGameStarted(true);
     }
+    setHasInteracted(true);
     if (!isPaused) {
       if (eventType === 'touchend' || eventType === 'click') {
         changeDirection(direction);
-        if (canVibrate) {
+        if (canVibrate && hasInteracted) {
           navigator.vibrate(50);
         }
       }
     }
-  }, [gameStarted, gameOver, startGame, changeDirection, isPaused, canVibrate]);
+  }, [gameStarted, gameOver, startGame, changeDirection, isPaused, canVibrate, hasInteracted]);
 
   useEffect(() => {
     const handleKeyPress = (e) => {
@@ -166,6 +166,11 @@ export default function Game() {
     pauseGame();
   }, [pauseGame]);
 
+  const handleRestart = useCallback(() => {
+    setGameStarted(false);
+    startGame();
+  }, [startGame]);
+
   return (
     <div className="w-full h-full flex flex-col">
       {!gameStarted ? (
@@ -177,6 +182,24 @@ export default function Game() {
           <div className="bg-white bg-opacity-10 p-4 sm:p-6 rounded-lg shadow-lg hover:bg-opacity-20 hover:shadow-xl transition-all duration-300 ease-in-out">
             <p className="text-white text-lg sm:text-xl italic font-light tracking-wide">
               Toucher pour commencer à jouer !
+            </p>
+          </div>
+        </div>
+      ) : gameOver ? (
+        <div 
+          className="w-full h-full flex items-center justify-center bg-black bg-opacity-50 cursor-pointer transition-all duration-300 ease-in-out"
+          onClick={handleRestart}
+          onTouchStart={handleRestart}
+        >
+          <div className="bg-white bg-opacity-10 p-4 sm:p-6 rounded-lg shadow-lg hover:bg-opacity-20 hover:shadow-xl transition-all duration-300 ease-in-out">
+            <p className="text-white text-lg sm:text-xl italic font-light tracking-wide text-center">
+              Game Over
+            </p>
+            <p className="text-white text-base sm:text-lg mt-2 text-center">
+              Score final : {score}
+            </p>
+            <p className="text-white text-sm sm:text-base mt-4 text-center">
+              Toucher pour rejouer !
             </p>
           </div>
         </div>
