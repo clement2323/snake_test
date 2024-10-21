@@ -19,8 +19,8 @@ spec:
         command: ["/bin/sh", "-c"]
         args:
           - |
-            echo "NEXT_PUBLIC_API_URL=$API_URL" > .env.local
-            npm run start
+            sed -i "s|http://placeholder-url.com|$API_URL|g" .env.local
+            npm start
         env:
         - name: API_URL
           valueFrom:

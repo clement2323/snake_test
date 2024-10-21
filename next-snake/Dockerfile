@@ -13,7 +13,10 @@ RUN npm install
 # Copy the rest of your app's source code
 COPY . .
 
-# Build your Next.js app
+# Créez le fichier .env.local avec une valeur par défaut
+RUN echo "NEXT_PUBLIC_API_URL=http://placeholder-url.com" > .env.local
+
+# Build de l'application
 RUN npm run build
 
 # Expose the port Next.js runs on
