@@ -24,11 +24,11 @@ export default function Controls({ onDirectionChange }) {
     flex items-center justify-center transition-all duration-150 ease-in-out
     hover:shadow-[0_0_10px_3px_rgba(255,255,255,0.7)] 
     active:shadow-[0_0_15px_5px_rgba(255,255,255,0.9)]
-    ${activeButton === direction ? 'bg-gray-800 shadow-[0_0_15px_5px_rgba(255,255,255,0.9)]' : ''}
+    ${JSON.stringify(activeButton) === JSON.stringify(direction) ? 'bg-gray-800 shadow-[0_0_15px_5px_rgba(255,255,255,0.9)]' : ''}
   `;
 
   return (
-    <div className="w-[calc(2/3*2/3*100%)] aspect-square grid grid-cols-3 grid-rows-3 gap-2 mx-auto">
+    <div className="w-[calc(2/3*0.8*100%)] aspect-square grid grid-cols-3 grid-rows-3 gap-2 mx-auto">
       <div className="col-start-2 row-start-1">
         <button 
           onClick={handleInteraction({ x: 0, y: -1 })}
