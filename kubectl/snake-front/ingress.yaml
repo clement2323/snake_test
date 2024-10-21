@@ -1,16 +1,16 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: snake-game-ingress
+  name: snake-game-front-ingress
 spec:
   rules:
-  - host: snake-dirag.lab.sspcloud.fr
+  - host: next-snake-dirag.lab.sspcloud.fr
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: snake-game-service
+            name: snake-game-front-service
             port:
               number: 80

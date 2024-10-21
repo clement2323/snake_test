@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: snake-game-deployment
+  name: snake-game-front
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: snake-game
+      app: snake-game-front
   template:
     metadata:
       labels:
-        app: snake-game
+        app: snake-game-front
     spec:
       containers:
       - name: snake-game-container
-        image: cguillo/snake-game:latest
+        image: cguillo/snake-game-front:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 5000

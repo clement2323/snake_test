@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: snake-game-service
+  name: snake-game-front-service
 spec:
   selector:
-    app: snake-game
+    app: snake-game-front
   ports:
     - protocol: TCP
       port: 80
