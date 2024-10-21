@@ -28,6 +28,14 @@ export default function Game() {
   const [gameStarted, setGameStarted] = useState(false)
   const lastTouchTime = useRef(0);
   const touchDelay = 300; // milliseconds
+  const [canVibrate, setCanVibrate] = useState(false);
+
+  useEffect(() => {
+    // Vérifier si la vibration est supportée
+    if ('vibrate' in navigator) {
+      setCanVibrate(true);
+    }
+  }, []);
 
   const fetchHighScores = useCallback(async () => {
     try {
@@ -46,12 +54,15 @@ export default function Game() {
     fetchHighScores()
   }, [fetchHighScores])
 
-  const handleBoardInteraction = useCallback(() => {
-    if (!gameStarted || gameOver) {
+  const handleStartGame = useCallback(() => {
+    if (!gameStarted) {
       startGame();
       setGameStarted(true);
+      if (canVibrate) {
+        navigator.vibrate(200); // Vibrer pendant 200ms
+      }
     }
-  }, [gameStarted, gameOver, startGame]);
+  }, [gameStarted, startGame, canVibrate]);
 
   const handleControlInteraction = useCallback((direction) => {
     if (!gameStarted || gameOver) {
@@ -67,11 +78,7 @@ export default function Game() {
     const handleKeyPress = (e) => {
       if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
         e.preventDefault();
-        
-        if (!gameStarted || gameOver) {
-          startGame()
-          setGameStarted(true)
-        }
+        handleStartGame();
         
         switch (e.key) {
           case 'ArrowUp': changeDirection({ x: 0, y: -1 }); break
@@ -84,7 +91,7 @@ export default function Game() {
 
     const handleTouchStart = (e) => {
       e.preventDefault();
-      handleBoardInteraction();
+      handleStartGame();
     }
 
     window.addEventListener('keydown', handleKeyPress);
@@ -94,7 +101,7 @@ export default function Game() {
       window.removeEventListener('keydown', handleKeyPress);
       window.removeEventListener('touchstart', handleTouchStart);
     }
-  }, [changeDirection, gameStarted, gameOver, startGame, handleBoardInteraction]);
+  }, [changeDirection, gameStarted, gameOver, startGame, handleStartGame]);
 
   const [saveMessage, setSaveMessage] = useState('')
 
@@ -159,35 +166,47 @@ export default function Game() {
 
   return (
     <div className="w-full h-full flex flex-col">
-      <div className="flex-grow flex flex-col items-center justify-between p-2">
-        <div className="w-full max-w-md mb-2 flex justify-between items-center">
-          <ScoreDisplay 
-            score={score} 
-            personalHighScore={personalHighScore}
-            globalHighScore={globalHighScore}
-          />
-          <div className="ml-auto">
-            <button
-              onClick={handlePause}
-              onTouchEnd={handlePause}
-              className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-1 px-3 rounded text-sm"
-            >
-              {isPaused ? "Resume" : "Pause"}
-            </button>
+      {!gameStarted ? (
+        <div 
+          className="w-full h-full flex items-center justify-center bg-black bg-opacity-50 cursor-pointer transition-all duration-300 ease-in-out"
+          onClick={handleStartGame}
+          onTouchStart={handleStartGame}
+        >
+          <div className="bg-white bg-opacity-10 p-6 rounded-lg shadow-lg hover:bg-opacity-20 hover:shadow-xl transition-all duration-300 ease-in-out">
+            <p className="text-white text-2xl font-bold">Toucher pour commencer à jouer</p>
           </div>
         </div>
-        <div className="w-full max-w-md aspect-square mb-2">
-          <GameBoard 
-            snake={snake} 
-            food={food} 
-            bonus={bonus} 
-            isPaused={isPaused}
-          />
+      ) : (
+        <div className="flex-grow flex flex-col items-center justify-between p-2">
+          <div className="w-full max-w-md mb-2 flex justify-between items-center">
+            <ScoreDisplay 
+              score={score} 
+              personalHighScore={personalHighScore}
+              globalHighScore={globalHighScore}
+            />
+            <div className="ml-auto">
+              <button
+                onClick={handlePause}
+                onTouchEnd={handlePause}
+                className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-1 px-3 rounded text-sm"
+              >
+                {isPaused ? "Resume" : "Pause"}
+              </button>
+            </div>
+          </div>
+          <div className="w-full max-w-md aspect-square mb-2">
+            <GameBoard 
+              snake={snake} 
+              food={food} 
+              bonus={bonus} 
+              isPaused={isPaused}
+            />
+          </div>
+          <div className="w-full max-w-md">
+            <Controls onDirectionChange={handleControlInteraction} />
+          </div>
         </div>
-        <div className="w-full max-w-md">
-          <Controls onDirectionChange={handleControlInteraction} />
-        </div>
-      </div>
+      )}
     </div>
   )
 }
