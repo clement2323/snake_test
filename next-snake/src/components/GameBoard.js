@@ -41,7 +41,7 @@ export default function GameBoard({ snake, food, bonus }) {
       />
       {bonus && (
         <div
-          className="absolute bg-yellow-400 animate-pulse"
+          className="absolute bg-yellow-200 animate-pulse"
           style={{
             left: `${bonus.x * cellSize}px`,
             top: `${bonus.y * cellSize}px`,
