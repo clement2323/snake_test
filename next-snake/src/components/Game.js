@@ -128,27 +128,21 @@ export default function Game() {
   }, [gameOver, score, saveScore]);
 
   const handleBoardInteraction = useCallback(() => {
-    const now = Date.now();
-    if (now - lastTouchTime.current < touchDelay) {
-      return; // Ignore rapid taps
-    }
-    lastTouchTime.current = now;
-
-    if (gameStarted && !gameOver) {
-      pauseGame();
-    } else if (!gameStarted || gameOver) {
+    if (!gameStarted || gameOver) {
       startGame();
       setGameStarted(true);
     }
-  }, [gameStarted, gameOver, pauseGame, startGame]);
+  }, [gameStarted, gameOver, startGame]);
 
   const handleControlInteraction = useCallback((direction) => {
     if (!gameStarted || gameOver) {
       startGame();
       setGameStarted(true);
     }
-    changeDirection(direction);
-  }, [gameStarted, gameOver, startGame, changeDirection]);
+    if (!isPaused) {
+      changeDirection(direction);
+    }
+  }, [gameStarted, gameOver, startGame, changeDirection, isPaused]);
 
   const handleResumeGame = useCallback(() => {
     if (isPaused) {
@@ -178,7 +172,7 @@ export default function Game() {
           {isPaused ? "Reprendre" : "Pause"}
         </button>
       </div>
-      <TouchJoystick onDirectionChange={handleControlInteraction} />
+      <TouchJoystick onDirectionChange={handleControlInteraction} isPaused={isPaused} />
       {!gameStarted && !gameOver && (
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-black p-8 rounded-lg text-white text-center border border-white">

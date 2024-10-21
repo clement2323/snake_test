@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-const TouchJoystick = ({ onDirectionChange }) => {
+const TouchJoystick = ({ onDirectionChange, isPaused }) => {
   const [joystickPos, setJoystickPos] = useState(null);
   const [knobPos, setKnobPos] = useState({ x: 0, y: 0 });
 
@@ -11,6 +11,8 @@ const TouchJoystick = ({ onDirectionChange }) => {
   }, []);
 
   const handleTouchMove = useCallback((e) => {
+    if (isPaused) return; // Ne pas réagir aux mouvements si le jeu est en pause
+
     if (!joystickPos) return;
 
     const touch = e.touches[0];
@@ -35,7 +37,7 @@ const TouchJoystick = ({ onDirectionChange }) => {
     } else if (Math.abs(dy) > threshold) {
       onDirectionChange({ x: 0, y: Math.sign(dy) });
     }
-  }, [joystickPos, onDirectionChange]);
+  }, [isPaused, joystickPos, onDirectionChange]);
 
   const handleTouchEnd = useCallback(() => {
     setJoystickPos(null);
