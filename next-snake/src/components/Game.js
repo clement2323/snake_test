@@ -46,6 +46,23 @@ export default function Game() {
     fetchHighScores()
   }, [fetchHighScores])
 
+  const handleBoardInteraction = useCallback(() => {
+    if (!gameStarted || gameOver) {
+      startGame();
+      setGameStarted(true);
+    }
+  }, [gameStarted, gameOver, startGame]);
+
+  const handleControlInteraction = useCallback((direction) => {
+    if (!gameStarted || gameOver) {
+      startGame();
+      setGameStarted(true);
+    }
+    if (!isPaused) {
+      changeDirection(direction);
+    }
+  }, [gameStarted, gameOver, startGame, changeDirection, isPaused]);
+
   useEffect(() => {
     const handleKeyPress = (e) => {
       if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
@@ -71,13 +88,13 @@ export default function Game() {
     }
 
     window.addEventListener('keydown', handleKeyPress);
-    window.addEventListener('touchstart', handleTouchStart);
+    window.addEventListener('touchstart', handleTouchStart, { passive: false });
 
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
       window.removeEventListener('touchstart', handleTouchStart);
     }
-  }, [changeDirection, gameStarted, gameOver, startGame]);
+  }, [changeDirection, gameStarted, gameOver, startGame, handleBoardInteraction]);
 
   const [saveMessage, setSaveMessage] = useState('')
 
@@ -93,14 +110,14 @@ export default function Game() {
         body: JSON.stringify({
           player_id: user.id,
           score: score,
-          duration: gameDuration, // Utilisez gameDuration ici
+          duration: gameDuration,
           is_active: false,
           date_time: new Date().toISOString(),
           nom_du_jeu: "snake-dirag"
         }),
       })
       if (!response.ok) {
-        console.log( JSON.stringify({
+        console.log(JSON.stringify({
           player_id: user.id,
           score: score,
           duration: gameDuration,
@@ -119,7 +136,7 @@ export default function Game() {
     } catch (error) {
       console.error('Error saving score:', error)
     }
-  }, [user, fetchHighScores])
+  }, [user, fetchHighScores, gameDuration])
 
   useEffect(() => {
     if (gameOver) {
@@ -127,29 +144,18 @@ export default function Game() {
     }
   }, [gameOver, score, saveScore]);
 
-  const handleBoardInteraction = useCallback(() => {
-    if (!gameStarted || gameOver) {
-      startGame();
-      setGameStarted(true);
-    }
-  }, [gameStarted, gameOver, startGame]);
-
-  const handleControlInteraction = useCallback((direction) => {
-    if (!gameStarted || gameOver) {
-      startGame();
-      setGameStarted(true);
-    }
-    if (!isPaused) {
-    
-      changeDirection(direction);
-    }
-  }, [gameStarted, gameOver, startGame, changeDirection, isPaused]);
-
   const handleResumeGame = useCallback(() => {
     if (isPaused) {
       pauseGame(); // Cette fonction devrait basculer l'état de pause
     }
   }, [isPaused, pauseGame]);
+
+  const handlePause = (e) => {
+    if (e.type === 'touchend') {
+      e.preventDefault();
+    }
+    pauseGame();
+  };
 
   return (
     <div className="relative">
@@ -167,13 +173,14 @@ export default function Game() {
           isPaused={isPaused}
         />
         <button
-          onClick={pauseGame}
+          onClick={handlePause}
+          onTouchEnd={handlePause}
           className="mt-2 bg-gray-800 text-white px-2 py-1 rounded text-sm"
         >
           {isPaused ? "Reprendre" : "Pause"}
         </button>
       </div>
-      <TouchJoystick onDirectionChange={handleControlInteraction} isPaused={isPaused} />
+      <Controls onDirectionChange={handleControlInteraction} />
       {!gameStarted && !gameOver && (
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-black p-8 rounded-lg text-white text-center border border-white">
