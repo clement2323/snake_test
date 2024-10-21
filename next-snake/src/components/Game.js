@@ -15,11 +15,11 @@ export default function Game() {
     bonus, 
     score, 
     gameOver, 
-    isPaused, 
     startGame, 
-    pauseGame, 
     changeDirection, 
-    gameDuration 
+    gameDuration,
+    isPaused,
+    pauseGame
   } = useSnakeGame()
   const { user, setUser } = useUser()
   const [personalHighScore, setPersonalHighScore] = useState(0)
@@ -127,36 +127,31 @@ export default function Game() {
     }
   }, [gameOver, score, saveScore]);
 
-  const togglePause = (e) => {
-    e.stopPropagation()
-    pauseGame()
-  }
+  const handleBoardInteraction = () => {
+    if (gameStarted && !gameOver) {
+      pauseGame();
+    } else if (!gameStarted || gameOver) {
+      startGame();
+      setGameStarted(true);
+    }
+  };
 
   return (
-    <div className="relative" 
-         onTouchStart={(e) => {
-           if (!gameStarted || gameOver) {
-             e.preventDefault();
-             startGame();
-             setGameStarted(true);
-           }
-         }}>
+    <div className="relative">
       <ScoreDisplay 
         score={score} 
         personalHighScore={personalHighScore} 
         globalHighScore={globalHighScore.score}
         globalHighScoreUsername={globalHighScore.nom_utilisateur}
       />
-      <GameBoard snake={snake} food={food} bonus={bonus} />
+      <GameBoard 
+        snake={snake} 
+        food={food} 
+        bonus={bonus} 
+        onInteraction={handleBoardInteraction}
+        isPaused={isPaused}
+      />
       <Controls onDirectionChange={changeDirection} />
-      {gameStarted && !gameOver && (
-        <button
-          onClick={togglePause}
-          className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
-        >
-          {isPaused ? 'Resume' : 'Pause'}
-        </button>
-      )}
       {!gameStarted && !gameOver && (
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-black p-8 rounded-lg text-white text-center border border-white">

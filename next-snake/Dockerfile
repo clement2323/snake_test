@@ -13,6 +13,9 @@ RUN npm install
 # Copy the rest of your app's source code
 COPY . .
 
+# Copy next.config.mjs specifically to ensure it's included
+COPY next.config.mjs .
+
 # ATTENTION: Assurez-vous que cette IP correspond à celle du service backend.
 # Vous devrez peut-être la mettre à jour si l'IP du service change.
 # Utilisez 'kubectl get services' pour vérifier l'IP du service backend.
