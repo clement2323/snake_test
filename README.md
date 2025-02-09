@@ -7,7 +7,7 @@ Welcome to the **Snake Test** project! This repository contains a multi-componen
 The repository is organized into the following directories:
 
 - **.github/workflows/**: Contains GitHub Actions workflows for CI/CD pipelines.
-- **kubectl/**: Includes Kubernetes deployment configurations.
+- **kubectl/**: Includes Kubernetes deployment configurations for the postgres Database.
 - **next-snake/**: Houses the frontend application built with Next.js.
 - **snake-game-backend/**: Contains the backend service for game logic and data management.
 
