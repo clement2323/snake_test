@@ -14,7 +14,7 @@ The repository is organized into the following directories:
 ## Technologies Used
 
 - **Frontend**: Next.js (JavaScript, TypeScript)
-- **Backend**: [Specify the framework or language used, if known]
+- **Backend**: NestJS
 - **Containerization**: Docker
 - **Orchestration**: Kubernetes
 - **CI/CD**: GitHub Actions
